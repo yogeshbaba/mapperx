@@ -76,10 +76,14 @@ public class ObjectX {
 		return o;
 	}
 	
-	public static void main(String args[]){
-		ObjectX o = createRoot();
-		o.set("name", "ram");
+	
+	@Override
+	public String toString() {
+		return "ObjectX [\ntype=" + type + ", fields=\n" + fields + ", customField=" + customField + ", cust2Actual="
+				+ cust2Actual + ", value=" + value + ", className=" + className + ", id=" + id + "]";
 	}
+	
+	
 }
 
 enum Type {OBJECT, ARRAY,PRIMITIVE}

@@ -1,0 +1,1 @@
+null safe for getpath when no object is defined in the middle
