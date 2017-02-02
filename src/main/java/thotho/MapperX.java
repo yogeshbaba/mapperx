@@ -36,16 +36,22 @@ public class MapperX {
 			for(Field field : instance.getClass().getDeclaredFields()){
 				field.setAccessible(true);
 				if(field.getType().equals(String.class)){
-					root.set(field.getName(), (String)field.get(instance));
-				} else if(field.getType().equals(List.class)){
-					List list = (List) field.get(instance);
-					List<ObjectX> listX = new ArrayList<>();
-					for(Object o : list){
-						listX.add(constObjectX(o));
-					}
-					root.set(field.getName(), listX);
+					if(field.get(instance) != null){
+						root.set(field.getName(), (String)field.get(instance));	
+					}					
+				}else if(field.getType().equals(List.class)){
+					if(field.get(instance) != null){
+						List list = (List) field.get(instance);
+						List<ObjectX> listX = new ArrayList<>();
+						for(Object o : list){
+							listX.add(constObjectX(o));
+						}
+						root.set(field.getName(), listX);
+					}					
 				} else {
-					root.set(field.getName(), constObjectX(field.get(instance)));
+					if(field.get(instance) != null){
+						root.set(field.getName(), constObjectX(field.get(instance)));	
+					}					
 				}
 			}
 			return root;

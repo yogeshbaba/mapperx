@@ -7,6 +7,7 @@ import java.util.List;
 
 import thotho.MapperX;
 import thotho.ObjectX;
+import thotho.ObjectXType;
 
 public class MapperXTest {
 	
@@ -17,6 +18,29 @@ public class MapperXTest {
 		mapper.set(oX, "cust");
 		assertEquals("ravi",mapper.fetch("cust.name").get());
 		assertEquals("bangalore",mapper.fetch("cust.address.0.city").get());
+	}
+	
+	
+	@org.junit.Test
+	public void basicFetchWithoutAddress(){
+		MapperX mapper = MapperX.instance();
+		Person person = constObject();
+		person.setAddress(null);
+		ObjectX oX = mapper.constObjectX(person);
+		mapper.set(oX, "cust");
+		assertEquals("ravi",mapper.fetch("cust.name").get());
+		assertEquals(ObjectXType.NOTFOUND,mapper.fetch("cust.address.0.city").type);
+	}
+	
+	@org.junit.Test
+	public void basicFetchWithInvalidField(){
+		MapperX mapper = MapperX.instance();
+		Person person = constObject();
+		person.setAddress(null);
+		ObjectX oX = mapper.constObjectX(person);
+		mapper.set(oX, "cust");
+		assertEquals("ravi",mapper.fetch("cust.name").get());
+		assertEquals(ObjectXType.NOTFOUND,mapper.fetch("cust.name1").type);
 	}
 	
 	public Person constObject(){

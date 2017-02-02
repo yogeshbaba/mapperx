@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 public class ObjectX {
 	
-	Type type;
+	public ObjectXType type;
 	Map<String, ObjectX> fields = new HashMap<>();
 	Map<String, Function<ObjectX, ObjectX>> customField = new HashMap<>();
 	Map<String, String> cust2Actual = new HashMap<>();
@@ -21,7 +21,7 @@ public class ObjectX {
 	}
 	
 	public ObjectX(String value){
-		this.type = Type.PRIMITIVE;
+		this.type = ObjectXType.PRIMITIVE;
 		this.value = value;
 		this.className = value.getClass().getName();
 	}
@@ -40,6 +40,11 @@ public class ObjectX {
 				if(tmp.customField.containsKey(field) && tmp.cust2Actual.containsKey(field)){
 					return tmp.customField.get(field).apply(tmp.fields.get(tmp.cust2Actual.get(field)));
 				}
+			}
+			if(tmp==this){
+				ObjectX tmp2 = new ObjectX();
+				tmp2.type = ObjectXType.NOTFOUND;
+				return tmp2;
 			}
 		}
 		return tmp;
@@ -72,7 +77,7 @@ public class ObjectX {
 	
 	public static ObjectX createRoot(){
 		ObjectX o = new ObjectX();
-		o.type = Type.OBJECT;
+		o.type = ObjectXType.OBJECT;
 		return o;
 	}
 	
@@ -85,5 +90,3 @@ public class ObjectX {
 	
 	
 }
-
-enum Type {OBJECT, ARRAY,PRIMITIVE}
