@@ -15,6 +15,7 @@ public class ObjectX {
 	String value;
 	String className; //className
 	String id; //applicable array time for a give field
+	int length;
 	
 	public ObjectX(){
 		
@@ -65,6 +66,8 @@ public class ObjectX {
 	public void set(String field, List<ObjectX> values){
 		ObjectX holder = createRoot();
 		holder.type = type.ARRAY;
+		holder.length = values.size();
+		holder.className = ArrayList.class.getName();
 		for(int i=0 ; i<values.size(); i++){
 			holder.fields.put(String.valueOf(i), values.get(i));
 		}

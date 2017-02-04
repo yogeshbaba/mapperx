@@ -2,8 +2,11 @@ package mapperx;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.Test;
 
 import thotho.MapperX;
 import thotho.ObjectX;
@@ -41,6 +44,35 @@ public class MapperXTest {
 		mapper.set(oX, "cust");
 		assertEquals("ravi",mapper.fetch("cust.name").get());
 		assertEquals(ObjectXType.NOTFOUND,mapper.fetch("cust.name1").type);
+	}
+	
+	@Test
+	public void testRootList(){
+		MapperX mapper = MapperX.instance();
+		List<Person> persons = new ArrayList<>();
+		persons.add(constObject());
+		ObjectX objX = mapper.constObjectX(persons);
+		System.out.println(objX);
+		assertEquals("ravi",objX.get("ROOT.0.name").get());
+	}
+	
+	@Test
+	public void testConstBack(){
+		MapperX mapper = MapperX.instance();
+		ObjectX oX = mapper.constObjectX(constObject());
+		Person object2 = (Person) mapper.constInstance(oX);			
+		assertEquals(constObject().getAge(), object2.getAge()) ;
+	}
+	
+	@Test
+	public void testConstBackRootList(){
+		MapperX mapper = MapperX.instance();
+		List<Person> persons = new ArrayList<>();
+		persons.add(constObject());
+		ObjectX oX = mapper.constObjectX(persons);
+		List<Person>  object2 = (List<Person>) mapper.constInstance(oX);			
+		assertEquals(persons.get(0).getAge(), object2.get(0).getAge()) ;
+		
 	}
 	
 	public Person constObject(){
@@ -97,6 +129,11 @@ class Person {
 	public void setDepartment(Department department) {
 		this.department = department;
 	}
+	@Override
+	public String toString() {
+		return "Person [name=" + name + ", age=" + age + ", address=" + address + ", department=" + department + "]";
+	}
+	
 	
 	
 }
@@ -116,6 +153,12 @@ class Address {
 	public void setCity(String city) {
 		this.city = city;
 	}
+	@Override
+	public String toString() {
+		return "Address [street=" + street + ", city=" + city + "]";
+	}
+	
+	
 	
 	
 }
@@ -130,8 +173,11 @@ class Department {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Department [name=" + name + "]";
+	}
 	
 	
 }

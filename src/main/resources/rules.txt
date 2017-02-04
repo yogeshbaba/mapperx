@@ -1,0 +1,27 @@
+Person
+	name
+	age
+	mobile
+	homeAddress
+		street
+		city
+	officeAddress
+		street
+		city
+	
+
+
+RSPerson[] -> Person[]
+.name->.name
+.age->.age
+.mobile->.mobile
+
+RSAddress[] -> Person[$1.mobile=.mobile&$1.type="home"].homeAddress
+.street->.street
+.city->.city
+
+RSAddress[.type="office"] -> Person[$1.mobile=.mobile].officeAddress
+.street->.street
+.city->.city
+
+	
